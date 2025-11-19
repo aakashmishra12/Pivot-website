@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pivot Marketing - We turn clicks into real business growth.</title>
+    <style>
+        /* CSS Variables for colors and fonts */
+        :root {
+            --primary-blue: #003D77;
+            --black: #000000;
+            --white: #FFFFFF;
+            --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            --transition-speed: 0.5s;
+            --easing: cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        /* Basic Reset and Global Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--white);
+            color: var(--black);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        section {
+            min-height: 100vh;
+            padding: 100px 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            position: sticky;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px 0;
+            background-color: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--black);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-blue);
+        }
+
+        .nav-toggle {
+            display: none;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            z-index: 1001;
+        }
+        .hamburger {
+            width: 24px;
+            height: 2px;
+            background-color: var(--black);
+            display: block;
+            position: relative;
+        }
+        .hamburger::before,
+        .hamburger::after {
+            content: '';
+            width: 24px;
+            height: 2px;
+            background-color: var(--black);
+            display: block;
+            position: absolute;
+            transition: all 0.3s ease;
+        }
+        .hamburger::before {
+            top: -8px;
+        }
+        .hamburger::after {
+            bottom: -8px;
+        }
+
+        /* Hero Section */
+        #hero {
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #hero h1 {
+            font-size: 5rem;
+            max-width: 800px;
+            margin: 0 auto 20px;
+            line-height: 1.1;
+        }
+
+        #hero p {
+            font-size: 1.25rem;
+            max-width: 600px;
+            margin: 0 auto 30px;
+            color: var(--black);
+            opacity: 0.8;
+        }
+
+        .cta-button {
+            padding: 15px 30px;
+            background-color: var(--primary-blue);
+            color: var(--white);
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 61, 119, 0.2);
+        }
+
+        .hero-visual {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(45deg, var(--primary-blue), rgba(0, 61, 119, 0.5));
+            border-radius: 50%;
+            filter: blur(50px);
+            opacity: 0.3;
+            z-index: -1;
+            bottom: -150px;
+            right: -150px;
+        }
+
+        /* Services Section */
+        #services {
+            background-color: var(--white);
+        }
+
+        #services h2 {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 60px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+        }
+
+        .service-card {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        .service-card h3 {
+            color: var(--primary-blue);
+            margin-bottom: 15px;
+        }
+
+        /* Case Studies Section */
+        #case-studies {
+            padding: 150px 0;
+        }
+
+        .case-studies-container {
+            display: flex;
+            gap: 5%;
+        }
+
+        .case-studies-text {
+            width: 45%;
+            position: relative;
+        }
+
+        .case-study {
+            min-height: 80vh;
+            margin-bottom: 100px;
+        }
+
+        .case-study h3 {
+            font-size: 2.5rem;
+            color: var(--primary-blue);
+            margin-bottom: 20px;
+        }
+
+        .case-study p {
+            line-height: 1.7;
+        }
+
+        .case-studies-visual {
+            width: 50%;
+            height: 70vh;
+            position: sticky;
+            top: 15vh;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+        }
+
+        .visual-panel {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            transition: opacity 0.8s var(--easing), transform 0.8s var(--easing);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 3rem;
+            color: var(--white);
+            text-align: center;
+            padding: 40px;
+        }
+
+        #visual-1 {
+            background: linear-gradient(45deg, #003D77, #002244);
+            z-index: 1;
+            opacity: 1;
+        }
+
+        #visual-2 {
+            background: linear-gradient(45deg, var(--black), #2a2a2a);
+            z-index: 0;
+            opacity: 0;
+        }
+
+        /* Process Section */
+        #process h2 {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 80px;
+        }
+        .process-timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .process-timeline::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            background-color: rgba(0, 0, 0, 0.1);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -2px;
+            z-index: -1;
+        }
+
+        .process-step {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+        }
+
+        .process-step:nth-child(odd) {
+            left: 0;
+            text-align: right;
+        }
+
+        .process-step:nth-child(even) {
+            left: 50%;
+        }
+
+        .process-step-content {
+            padding: 30px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+
+        .process-step h3 {
+            color: var(--primary-blue);
+        }
+
+        /* Results Section */
+        #results {
+            background-color: var(--white);
+        }
+        #results h2 {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 60px;
+        }
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            text-align: center;
+        }
+        .stat-item .number {
+            font-size: 4rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+        }
+        .stat-item .label {
+            font-size: 1.1rem;
+            color: var(--black);
+            opacity: 0.8;
+        }
+
+        /* About Section */
+        #about h2 {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 60px;
+        }
+        .about-content {
+            display: flex;
+            gap: 50px;
+            align-items: center;
+            margin-bottom: 80px;
+        }
+        .about-text, .about-bullets {
+            flex: 1;
+        }
+        .about-bullets ul {
+            list-style: none;
+        }
+        .about-bullets li {
+            padding-left: 25px;
+            position: relative;
+            margin-bottom: 10px;
+        }
+        .about-bullets li::before {
+            content: '✓';
+            color: var(--primary-blue);
+            position: absolute;
+            left: 0;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 80px;
+            text-align: center;
+        }
+        .team-card {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 10px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        .team-card-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: rgba(0, 61, 119, 0.1);
+            margin: 0 auto 20px;
+        }
+        .team-card h4 {
+            font-size: 1.25rem;
+            margin-bottom: 5px;
+        }
+
+        /* Contact Section */
+        #contact {
+            background-color: var(--primary-blue);
+            color: var(--white);
+            text-align: center;
+        }
+        #contact h2 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+        #contact p {
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .contact-form {
+            max-width: 700px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            text-align: left;
+        }
+        .form-group {
+            position: relative;
+        }
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid transparent;
+            font-family: var(--font-family);
+        }
+        .contact-form button {
+            grid-column: 1 / -1;
+            padding: 15px 30px;
+            background-color: var(--white);
+            color: var(--primary-blue);
+            border: none;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            justify-self: center;
+        }
+
+        #form-success-message {
+            display: none;
+            color: var(--white);
+            background: var(--primary-blue);
+            border: 1px solid var(--white);
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--white);
+            padding: 40px 0;
+            text-align: center;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        .footer-links {
+            margin-bottom: 15px;
+        }
+        .footer-links a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: var(--black);
+        }
+        .footer-links a:hover {
+            color: var(--primary-blue);
+        }
+
+        /* Animation Classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 1s var(--easing), transform 1s var(--easing);
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: 0;
+                height: 100vh;
+                width: 70%;
+                background-color: var(--white);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                transform: translateX(100%);
+                transition: transform 0.3s ease-in-out;
+                box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+            }
+            .nav-links.active {
+                transform: translateX(0);
+            }
+            .nav-toggle {
+                display: block;
+            }
+            #hero h1 {
+                font-size: 3rem;
+            }
+            .services-grid, .results-grid {
+                grid-template-columns: 1fr;
+            }
+            .case-studies-container {
+                flex-direction: column;
+            }
+            .case-studies-text, .case-studies-visual {
+                width: 100%;
+            }
+            .case-studies-visual {
+                height: 50vh;
+                margin-top: 40px;
+            }
+            .process-timeline::after {
+                left: 30px;
+            }
+            .process-step {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+            .process-step:nth-child(even) {
+                left: 0;
+            }
+            .about-content {
+                flex-direction: column;
+            }
+            .contact-form {
+                grid-template-columns: 1fr;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- STICKY NAVBAR -->
+    <header class="navbar">
+        <div class="container navbar-container">
+            <a href="#hero" class="navbar-logo">Pivot Marketing</a>
+            <ul class="nav-links">
+                <li><a href="#services">Services</a></li>
+                <li><a href="#case-studies">Work</a></li>
+                <li><a href="#process">Process</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <button class="nav-toggle" aria-label="Toggle navigation">
+                <span class="hamburger"></span>
+            </button>
+        </div>
+    </header>
+
+    <main>
+
+        <!-- HERO SECTION -->
+        <section id="hero">
+            <div class="container reveal">
+                <h1>We turn clicks into real business growth.</h1>
+                <p>A full-service digital marketing agency that partners with brands to scale their business and achieve outstanding results.</p>
+                <a href="#contact" class="cta-button">Start a Project</a>
+            </div>
+            <div class="hero-visual parallax" data-speed="0.5"></div>
+        </section>
+
+        <!-- SERVICES SECTION -->
+        <section id="services">
+            <div class="container">
+                <h2 class="reveal">Our Capabilities</h2>
+                <div class="services-grid">
+                    <div class="service-card reveal" style="transition-delay: 0.1s;">
+                        <h3>Performance Marketing</h3>
+                        <p>Driving measurable results through paid search, social, and display campaigns.</p>
+                    </div>
+                    <div class="service-card reveal" style="transition-delay: 0.2s;">
+                        <h3>Creative Strategy</h3>
+                        <p>Crafting compelling brand narratives and visual identities that convert.</p>
+                    </div>
+                    <div class="service-card reveal" style="transition-delay: 0.3s;">
+                        <h3>Analytics & CRO</h3>
+                        <p>Using data to optimize user experience and maximize conversion rates.</p>
+                    </div>
+                    <div class="service-card reveal" style="transition-delay: 0.4s;">
+                        <h3>SEO</h3>
+                        <p>Boosting organic visibility and ranking to capture high-intent traffic.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CINEMATIC CASE STUDIES -->
+        <section id="case-studies">
+            <div class="container case-studies-container">
+                <div class="case-studies-text">
+                    <div class="case-study" id="case-1-text">
+                        <h3>E-commerce Revolution</h3>
+                        <p><strong>Challenge:</strong> A direct-to-consumer brand struggled with rising ad costs and declining ROAS, facing fierce competition in a saturated market.</p>
+                        <p><strong>Solution:</strong> We implemented a full-funnel strategy, combining high-intent Google Search campaigns with dynamic, creative-led social ads. A/B testing on landing pages identified key conversion barriers, which we removed.</p>
+                        <p><strong>Results:</strong> Achieved a 180% increase in ROAS within 3 months, a 45% decrease in Cost Per Acquisition, and a 250% growth in organic search revenue year-over-year.</p>
+                    </div>
+                    <div class="case-study" id="case-2-text">
+                        <h3>SaaS Lead Generation</h3>
+                        <p><strong>Challenge:</strong> A B2B SaaS company needed to increase qualified demo requests but had a limited budget and low brand awareness.</p>
+                        <p><strong>Solution:</strong> We developed a content-driven SEO strategy targeting long-tail keywords, supported by a hyper-targeted LinkedIn campaign aimed at key decision-makers. This drove high-quality traffic to a new, optimized resource hub.</p>
+                        <p><strong>Results:</strong> Generated a 300% increase in marketing-qualified leads (MQLs), lowered the cost per lead by 60%, and ranked on the first page of Google for 15 core commercial keywords.</p>
+                    </div>
+                </div>
+                <div class="case-studies-visual">
+                    <div class="visual-panel" id="visual-1">
+                        <h2>E-commerce ROAS Growth</h2>
+                    </div>
+                    <div class="visual-panel" id="visual-2">
+                        <h2>SaaS Lead Generation Engine</h2>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PROCESS SECTION -->
+        <section id="process">
+            <div class="container">
+                <h2 class="reveal">Our Process</h2>
+                <div class="process-timeline">
+                    <div class="process-step reveal">
+                        <div class="process-step-content">
+                            <h3>1. Discover</h3>
+                            <p>We immerse ourselves in your brand, market, and goals to build a foundational understanding.</p>
+                        </div>
+                    </div>
+                    <div class="process-step reveal">
+                        <div class="process-step-content">
+                            <h3>2. Strategy</h3>
+                            <p>A data-driven, bespoke marketing roadmap is crafted to target your unique objectives.</p>
+                        </div>
+                    </div>
+                    <div class="process-step reveal">
+                        <div class="process-step-content">
+                            <h3>3. Launch</h3>
+                            <p>Campaigns go live with meticulous tracking and monitoring to ensure a flawless start.</p>
+                        </div>
+                    </div>
+                    <div class="process-step reveal">
+                        <div class="process-step-content">
+                            <h3>4. Scale</h3>
+                            <p>We continuously optimize, analyze, and scale what works to drive exponential growth.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- RESULTS SECTION -->
+        <section id="results">
+            <div class="container">
+                <h2 class="reveal">Proven Results</h2>
+                <div class="results-grid">
+                    <div class="stat-item reveal">
+                        <div class="number" data-target="150">0</div>
+                        <div class="label">% Avg. ROAS Increase</div>
+                    </div>
+                    <div class="stat-item reveal">
+                        <div class="number" data-target="300">0</div>
+                        <div class="label">% More MQLs</div>
+                    </div>
+                    <div class="stat-item reveal">
+                        <div class="number" data-target="50">0</div>
+                        <div class="label">% Lower CPA</div>
+                    </div>
+                    <div class="stat-item reveal">
+                        <div class="number" data-target="98">0</div>
+                        <div class="label">% Client Retention</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ABOUT SECTION -->
+        <section id="about">
+            <div class="container">
+                <h2 class="reveal">Why Pivot?</h2>
+                <div class="about-content">
+                    <div class="about-text reveal">
+                        <h3>Your Growth Partner</h3>
+                        <p>We're not just another agency; we're an extension of your team. Our philosophy is built on transparency, partnership, and a relentless focus on the metrics that matter to your bottom line. We succeed when you succeed.</p>
+                    </div>
+                    <div class="about-bullets reveal">
+                        <ul>
+                            <li>Data-driven decisions, not guesswork.</li>
+                            <li>Fully transparent reporting and communication.</li>
+                            <li>Custom strategies tailored to your business goals.</li>
+                            <li>A dedicated team of expert marketers.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="team-grid reveal">
+                    <div class="team-card reveal" style="transition-delay: 0.1s;">
+                        <div class="team-card-avatar"></div>
+                        <h4>Alex Johnson</h4>
+                        <p>CEO & Founder</p>
+                    </div>
+                    <div class="team-card reveal" style="transition-delay: 0.2s;">
+                        <div class="team-card-avatar"></div>
+                        <h4>Maria Garcia</h4>
+                        <p>Head of Strategy</p>
+                    </div>
+                    <div class="team-card reveal" style="transition-delay: 0.3s;">
+                        <div class="team-card-avatar"></div>
+                        <h4>Chen Wei</h4>
+                        <p>Lead Analyst</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACT CTA SECTION -->
+        <section id="contact">
+            <div class="container">
+                <h2 class="reveal">Let's Build Something Great Together</h2>
+                <p class="reveal">Ready to pivot your marketing strategy? Fill out the form below to get in touch.</p>
+                <form id="contact-form" class="contact-form reveal">
+                    <div class="form-group">
+                        <input type="text" id="name" name="name" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="email" name="email" placeholder="Your Email" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="company" name="company" placeholder="Company Name">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="budget" name="budget" placeholder="Marketing Budget">
+                    </div>
+                    <div class="form-group full-width">
+                        <textarea id="message" name="message" rows="5" placeholder="Your Message" required></textarea>
+                    </div>
+                    <button type="submit">Send Message</button>
+                </form>
+                <div id="form-success-message">Thank you! Your message has been sent. We'll be in touch shortly.</div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <div class="footer-links">
+                <a href="#services">Services</a>
+                <a href="#case-studies">Work</a>
+                <a href="#about">About</a>
+                <a href="#contact">Contact</a>
+            </div>
+            <p>&copy; 2024 Pivot Marketing. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            /**
+             * SCROLL-DRIVEN ANIMATIONS (Intersection Observer)
+             * Adds a 'visible' class to elements when they enter the viewport.
+             */
+            const revealObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        // Optional: unobserve after revealing to save resources
+                        // observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+
+            const revealElements = document.querySelectorAll('.reveal');
+            revealElements.forEach(el => revealObserver.observe(el));
+
+            /**
+             * PARALLAX EFFECT
+             * Moves elements at a different speed on scroll for a 3D effect.
+             */
+            const parallaxElements = document.querySelectorAll('.parallax');
+            let ticking = false;
+
+            function updateParallax() {
+                let offset = window.pageYOffset;
+                parallaxElements.forEach(el => {
+                    const speed = el.dataset.speed || 0.5;
+                    el.style.transform = `translateY(${offset * speed}px)`;
+                });
+                ticking = false;
+            }
+
+            window.addEventListener('scroll', () => {
+                if (!ticking) {
+                    window.requestAnimationFrame(updateParallax);
+                    ticking = true;
+                }
+            });
+
+            /**
+             * CASE STUDY SCROLLYTELLING
+             * Updates a sticky visual panel based on which text block is in view.
+             */
+            const caseVisuals = {
+                'case-1-text': document.getElementById('visual-1'),
+                'case-2-text': document.getElementById('visual-2'),
+            };
+            const visualContainer = document.querySelector('.case-studies-visual');
+
+            const caseObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const activeId = entry.target.id;
+                        const activeVisual = caseVisuals[activeId];
+
+                        // Set current visual to active
+                        activeVisual.style.opacity = '1';
+                        activeVisual.style.zIndex = '1';
+
+                        // Deactivate all other visuals
+                        for (const id in caseVisuals) {
+                            if (id !== activeId) {
+                                caseVisuals[id].style.opacity = '0';
+                                caseVisuals[id].style.zIndex = '0';
+                            }
+                        }
+                    }
+                });
+            }, {
+                threshold: 0.6 // Trigger when 60% of the text block is visible
+            });
+
+            const caseTextElements = document.querySelectorAll('.case-study');
+            caseTextElements.forEach(el => caseObserver.observe(el));
+
+
+            /**
+             * RESULTS NUMBER COUNT-UP
+             * Animates numbers from 0 to a target value when visible.
+             */
+            const animateCountUp = (el) => {
+                const target = +el.dataset.target;
+                const duration = 1500;
+                const startTime = Date.now();
+
+                const updateCount = () => {
+                    const elapsedTime = Date.now() - startTime;
+                    const progress = Math.min(elapsedTime / duration, 1);
+                    const current = Math.floor(progress * target);
+                    el.textContent = current;
+
+                    if (progress < 1) {
+                        requestAnimationFrame(updateCount);
+                    } else {
+                        el.textContent = target; // Ensure it ends on the exact number
+                    }
+                };
+                requestAnimationFrame(updateCount);
+            };
+
+            const countUpObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const numberEl = entry.target.querySelector('.number');
+                        animateCountUp(numberEl);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            document.querySelectorAll('.stat-item').forEach(item => countUpObserver.observe(item));
+
+            /**
+             * MOBILE NAVIGATION TOGGLE
+             */
+            const navToggle = document.querySelector('.nav-toggle');
+            const navLinks = document.querySelector('.nav-links');
+
+            navToggle.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+            });
+
+            /**
+             * CONTACT FORM VALIDATION & SUBMISSION
+             * Provides basic front-end validation and a success message.
+             */
+            const contactForm = document.getElementById('contact-form');
+            const successMessage = document.getElementById('form-success-message');
+
+            contactForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+
+                // Simple validation check
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const message = document.getElementById('message').value;
+
+                if (name.trim() === '' || email.trim() === '' || message.trim() === '') {
+                    alert('Please fill in all required fields.');
+                    return;
+                }
+
+                // Show success message and hide form
+                contactForm.style.display = 'none';
+                successMessage.style.display = 'block';
+
+                // In a real application, you would send the data to a server here.
+            });
+
+        });
+    </script>
+</body>
+</html>
