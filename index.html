@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scroll Video</title>
+    <style>
+        body {
+            margin: 0;
+            background-color: #000;
+            color: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        #scroll-container {
+            height: 500vh; /* Make the page scrollable */
+        }
+
+        #hero {
+            height: 100vh;
+            width: 100%;
+            position: -webkit-sticky;
+            position: sticky;
+            top: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        #scroll-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        #hero-text {
+            position: absolute;
+            text-align: center;
+            max-width: 80%;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            font-size: 1.25rem;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="scroll-container">
+        <div id="hero">
+            <video id="scroll-video" preload="metadata" muted playsinline>
+                <source src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4">
+            </video>
+            <div id="hero-text">
+                <h1>Scroll to explore the story</h1>
+                <p>Scroll down to play the video and see what happens next.</p>
+            </div>
+        </div>
+    </div>
+    <script>
+        const video = document.getElementById('scroll-video');
+        const scrollContainer = document.getElementById('scroll-container');
+        let isSeeking = false;
+
+        // Wait for the video metadata to load before trying to access its duration
+        video.addEventListener('loadedmetadata', () => {
+            // The total scrollable height of the page
+            const scrollableHeight = scrollContainer.scrollHeight - window.innerHeight;
+
+            function onScroll() {
+                // Calculate the user's scroll progress as a percentage (0 to 1)
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                const scrollPercent = Math.min(1, scrollTop / scrollableHeight);
+
+                // Map the scroll percentage to the video's duration
+                const newTime = video.duration * scrollPercent;
+
+                // Update the video's current time if it's different enough from the new time
+                // and we are not currently seeking to avoid jitter
+                if (Math.abs(newTime - video.currentTime) > 0.1 && !isSeeking) {
+                    isSeeking = true;
+                    requestAnimationFrame(() => {
+                        video.currentTime = newTime;
+                    });
+                }
+            }
+
+            // Attach the onScroll function to the window's scroll event
+            window.addEventListener('scroll', onScroll);
+
+            // Use seeking and seeked events to prevent the video from jumping around
+            // while the browser is trying to catch up to the scroll position
+            video.addEventListener('seeking', () => {
+                isSeeking = true;
+            });
+            video.addEventListener('seeked', () => {
+                isSeeking = false;
+            });
+        });
+    </script>
+</body>
+</html>
